@@ -7,7 +7,7 @@ function Login(props) {
             <h1>Sonvul</h1>
             <h3>You must login with Facebook to continue</h3>
             <FacebookLogin
-                appId="1088597931155576"
+                // appId="1088597931155576"
                 autoLoad={true}
                 fields="name,email,picture"
                 // onClick={componentClicked}
