@@ -1,0 +1,23 @@
+main {
+    /* height: 1000px; */
+    padding-bottom: 200px;
+}
+
+main h3 {
+    width: 60%;
+    margin: 0 auto;
+}
+
+main span button {
+    border: solid;
+    border-radius: 25%;
+    margin-top: 20px;
+}
+
+main img {
+    width: 800px; 
+    height: auto; 
+    margin-top: 30px;
+    border: solid;
+    border-width: 0.5px;
+}

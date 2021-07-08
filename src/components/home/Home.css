@@ -7,8 +7,18 @@
 #instagram .impressions-container, #instagram .reach-container, #instagram .cities-container, #instagram .demographics-container, #spotify .listeners, #spotify .streams {
     width: 50%;
     border: solid;
+    /* background: #DB5461; */
+    /* background: #FF958C; */
+    background: #FEC3A6;
 }
 
+#spotify h3 {
+    padding: 50px;
+}
+
+#instagram h3 {
+    padding: 30px;
+}
 
 
 

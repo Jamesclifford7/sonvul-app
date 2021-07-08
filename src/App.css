@@ -1,4 +1,25 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans&family=Pacifico&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 .App {
   text-align: center;
+  font-family: 'Roboto', sans-serif;
+  /* background-color: #DEE5E5; */
+  /* background-color: #FBF7F4; */
+  background-color: #FAFAFA;
 }
 
+h1 {
+  margin: 0 auto;
+  font-family: 'Pacifico';
+  color: #3ABEFF;
+  /* color: #76BED0; */
+  padding: 30px;
+}
+
+h4 {
+  font-style: italic;
+}
+
+/* #3ABEFF */

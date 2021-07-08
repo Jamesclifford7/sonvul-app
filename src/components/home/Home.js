@@ -1,13 +1,17 @@
 import React from 'react'; 
 // import csvToJson from 'convert-csv-to-json'; 
-import CSVReader from 'react-csv-reader'; 
 import './Home.css'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInstagram, faSpotify } from '@fortawesome/free-brands-svg-icons'
+// npm install --save @fortawesome/free-brands-svg-icons
+//   npm install --save @fortawesome/free-regular-svg-icons
 
 
 class Home extends React.Component {
     constructor() {
         super(); 
         this.state = {
+            artistName: null, 
             igImpressionsWeekly: null, 
             igReachWeekly: null, 
             igImpressionsMonthly: null, 
@@ -15,14 +19,6 @@ class Home extends React.Component {
             igTopCities: [],
             igDemographics: [],
             igNewFollowers: null,
-            audienceData: [], 
-            songData: [],
-            listenersWeekly: null, 
-            listenersMonthly: null,
-            streamsWeekly: null, 
-            streamsMonthly: null, 
-            followers: null, 
-            topSongs: []
         }
     }
 
@@ -43,9 +39,13 @@ class Home extends React.Component {
             return res.json()
         })
         .then((resJson) => {
-            // console.log(resJson)
+            console.log(resJson)
             const fbAccountId = resJson.data[0].id; 
             const token = resJson.data[0].access_token; 
+            const name = resJson.data[0].name;
+            this.setState({
+                artistName: name
+            }); 
             // then use facebook account id to get Instagram business acount ID
             fetch(`https://graph.facebook.com/v11.0/${fbAccountId}?fields=instagram_business_account&access_token=${token}`, {
                 method: 'GET', 
@@ -270,32 +270,39 @@ class Home extends React.Component {
             <main>
                 <h1>Sonvul</h1>
                     <section id="instagram">
-                        <h2>Instagram Data</h2>
+                        <h2>Welcome, {this.state.artistName}</h2>
+                        <h3><FontAwesomeIcon icon={faInstagram}/> Instagram Data</h3>
+                        <h4>New followers this month:</h4>
+                        {
+                            this.props.igNewFollowers !== null
+                            ? <p>{this.state.igNewFollowers}</p>
+                            : null
+                        }
                         <div className="container1">
                             <div className="impressions-container">
-                                <h3>Impressions this past week</h3>
+                                <h4>Impressions this past week</h4>
                                 {
-                                    this.state.igImpressionsWeekly !== null
+                                    this.props.igImpressionsWeekly !== null
                                     ? <span> {this.state.igImpressionsWeekly}</span>
                                     : null
                                 }
-                                <h3>Impressions this past month</h3>
+                                <h4>Impressions this past month</h4>
                                 {
-                                    this.state.igImpressionsMonthly !== null
+                                    this.props.igImpressionsMonthly !== null
                                     ? <span> {this.state.igImpressionsMonthly}</span>
                                     : null
                                 }
                             </div>
                             <div className="reach-container">
-                                <h3>Reach this past week</h3>
+                                <h4>Reach this past week</h4>
                                 {
-                                    this.state.igReachWeekly !== null
+                                    this.props.igReachWeekly !== null
                                     ? <p>{this.state.igReachWeekly}</p>
                                     : null
                                 }
-                                <h3>Reach this past month</h3>
+                                <h4>Reach this past month</h4>
                                 {
-                                    this.state.igReachMonthly !== null
+                                    this.props.igReachMonthly !== null
                                     ? <p>{this.state.igReachMonthly}</p>
                                     : null
                                 }
@@ -303,7 +310,7 @@ class Home extends React.Component {
                         </div>
                         <div className="container2">
                             <div className="cities-container">
-                                <h3>Top Cities</h3>
+                                <h4>Top Cities</h4>
                                 {
                                     this.state.igTopCities.map((c, idx) => {
                                         return <p key={idx}>{c[0]} {c[1]}</p>
@@ -311,7 +318,7 @@ class Home extends React.Component {
                                 }
                             </div>
                             <div className="demographics-container">
-                                <h3>Top User Demographics</h3>
+                                <h4>Top User Demographics</h4>
                                 {
                                     this.state.igDemographics.length !== 0
                                     ? this.state.igDemographics.map((dem, idx) => {
@@ -321,61 +328,50 @@ class Home extends React.Component {
                                 }
                             </div>
                         </div>
-                        <h3>New followers this month:</h3>
-                        {
-                            this.state.igNewFollowers !== null
-                            ? <p>{this.state.igNewFollowers}</p>
-                            : null
-                        }
                     </section>
                     <section id="spotify">
-                        <h2>Spotify Data</h2>
-                        <h4>Upload Audience Data</h4>
-                        <CSVReader onFileLoaded={(data) => this.state.audienceData.push(data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14], data[15], data[16], data[17], data[18], data[19], data[20], data[21], data[22], data[23], data[24], data[25], data[26], data[27], data[28], data[29], data[30])} />
-                        <h4>Upload Song Data</h4>
-                        <CSVReader onFileLoaded={(data) => this.state.songData.push(data[1], data[2], data[3], data[4], data[5])} />
-                        <button onClick={event => this.handleAudienceSubmit(event)}>Upload</button>
+                        <h3> <FontAwesomeIcon icon={faSpotify} /> Spotify Data</h3>
                         <div className="container3">
                             <div className="listeners">
-                                <h3>Listeners this past week</h3>
+                                <h4>Listeners this past week</h4>
                                 {
-                                    this.state.listenersWeekly !== null
-                                    ? <p>{this.state.listenersWeekly}</p>
+                                    this.props.listenersWeekly !== null
+                                    ? <p>{this.props.listenersWeekly}</p>
                                     : null
                                 }
-                                <h3>Listeners this past month</h3>
+                                <h4>Listeners this past month</h4>
                                 {
-                                    this.state.listenersMonthly !== null
-                                    ? <p>{this.state.listenersMonthly}</p>
+                                    this.props.listenersMonthly !== null
+                                    ? <p>{this.props.listenersMonthly}</p>
                                     : null
                                 }
                             </div>
                             <div className="streams">
-                                <h3>Streams this past week</h3>
+                                <h4>Streams this past week</h4>
                                 {
-                                    this.state.streamsWeekly !== null
-                                    ? <p>{this.state.streamsWeekly}</p>
+                                    this.props.streamsWeekly !== null
+                                    ? <p>{this.props.streamsWeekly}</p>
                                     : null
                                 }
-                                <h3>Streams this past month</h3>
+                                <h4>Streams this past month</h4>
                                 {
-                                    this.state.streamsMonthly !== null
-                                    ? <p>{this.state.streamsMonthly}</p>
+                                    this.props.streamsMonthly !== null
+                                    ? <p>{this.props.streamsMonthly}</p>
                                     : null
                                 }
                             </div>
                         </div>
-                        <h3>Total Followers</h3>
+                        <h4>Total Followers</h4>
                         {
-                            this.state.followers !== null
-                            ? <p>{this.state.followers}</p>
+                            this.props.followers !== null
+                            ? <p>{this.props.followers}</p>
                             : null
                         }
-                        <h3>Top Songs this Month</h3>
+                        <h4>Top Songs this Month</h4>
                         {
-                            this.state.songData.length !== 0
-                            ? this.state.songData.map((song, idx) => {
-                                return <p key={idx}>{song[0]} Listeners: {song[1]} Streams: {song[2]}</p>
+                            this.props.songData.length !== 0
+                            ? this.props.songData.map((song, idx) => {
+                                return <p key={idx}>"{song[0]}" Listeners: {song[1]} Streams: {song[2]}</p>
                             })
                             : null
                         }
