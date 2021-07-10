@@ -179,9 +179,19 @@ class Home extends React.Component {
                     const demographicArr = Object.entries(demographicInfo); 
                     const demographicSorted = demographicArr.sort((a, b) => a[1] - b[1]); 
                     const topDemographics = []; 
+                    console.log(demographicSorted)
                     for (let i = demographicSorted.length - 1; i > demographicSorted.length - 6; i--) {
-                        topDemographics.push(demographicSorted[i])
+                        if (demographicSorted[i][0].split('.')[0] === 'M') {
+                            const dem = [demographicSorted[i][0].split('.')[0] + "ale", demographicSorted[i][0].split('.')[1], demographicSorted[i][1]]; 
+                            topDemographics.push(dem)
+                        } else if (demographicSorted[i][0].split('.')[0] === 'F') {
+                            const dem = [demographicSorted[i][0].split('.')[0] + "emale", demographicSorted[i][0].split('.')[1], demographicSorted[i][1]]; 
+                            topDemographics.push(dem)
+                        }
+
+                        // topDemographics.push(demographicSorted[i])
                     }; 
+
                     this.setState({
                         igDemographics: topDemographics
                     }); 
@@ -266,11 +276,47 @@ class Home extends React.Component {
     }
 
     render() {
+        console.log(this.state.igImpressionsMonthly)
         return (
             <main>
                 <h1>Sonvul</h1>
+                <h2>Welcome, {this.state.artistName}</h2>
+                    <section id="report">
+                        <h3>Based on your data, we recommend...</h3>
+                        <div className="report-container">
+                            <div className="recommendation">
+                                <h4>Promoting these songs</h4>
+                                <p>1. "{this.props.songData[0][0]}"</p>
+                                <p>2. "{this.props.songData[1][0]}"</p>
+                                <p>3. "{this.props.songData[2][0]}"</p>
+                                {/* {
+                                    this.props.songData.length !== 0
+                                    ? this.props.songData.map((song, idx) => {
+                                        return <p key={idx}>"{song[0]}" Listeners: {song[1]} Streams: {song[2]}</p>
+                                    })
+                                    : null
+                                } */}
+                            </div>
+                            <div className="recommendation">
+                                <h4>In these cities</h4>
+                                {
+                                    this.state.igTopCities.map((c, idx) => {
+                                        return <p key={idx}>{idx + 1}. {c[0]}</p>
+                                    })
+                                }
+                            </div>
+                            <div className="recommendation">
+                                <h4>Among these demographics</h4>
+                                {
+                                    this.state.igDemographics.map((dem, idx) => {
+                                        return <p key={idx}>{idx + 1}. {dem[0]}s age {dem[1]}</p>
+                                    })
+                                }
+                            </div>
+                        </div>
+                    </section>
                     <section id="instagram">
-                        <h2>Welcome, {this.state.artistName}</h2>
+                        {/* <h2>Welcome, {this.state.artistName}</h2> */}
                         <h3><FontAwesomeIcon icon={faInstagram}/> Instagram Data</h3>
                         <h4>New followers this month:</h4>
                         {
@@ -278,18 +324,18 @@ class Home extends React.Component {
                             ? <p>{this.state.igNewFollowers}</p>
                             : null
                         }
-                        <div className="container1">
+                        <div className="ig-container1">
                             <div className="impressions-container">
                                 <h4>Impressions this past week</h4>
                                 {
                                     this.props.igImpressionsWeekly !== null
-                                    ? <span> {this.state.igImpressionsWeekly}</span>
+                                    ? <p> {this.state.igImpressionsWeekly}</p>
                                     : null
                                 }
                                 <h4>Impressions this past month</h4>
                                 {
                                     this.props.igImpressionsMonthly !== null
-                                    ? <span> {this.state.igImpressionsMonthly}</span>
+                                    ? <p> {this.state.igImpressionsMonthly}</p>
                                     : null
                                 }
                             </div>
@@ -308,12 +354,12 @@ class Home extends React.Component {
                                 }
                             </div>
                         </div>
-                        <div className="container2">
+                        <div className="ig-container2">
                             <div className="cities-container">
                                 <h4>Top Cities</h4>
                                 {
                                     this.state.igTopCities.map((c, idx) => {
-                                        return <p key={idx}>{c[0]} {c[1]}</p>
+                                        return <p key={idx}>{c[0]} ({c[1]})</p>
                                     })
                                 }
                             </div>
@@ -322,7 +368,7 @@ class Home extends React.Component {
                                 {
                                     this.state.igDemographics.length !== 0
                                     ? this.state.igDemographics.map((dem, idx) => {
-                                        return <p key={idx}>{dem[0]}: {dem[1]}</p>
+                                        return <p key={idx}>{dem[0]}s age {dem[1]} ({dem[2]})</p>
                                     })
                                     : null
                                 }
@@ -331,7 +377,7 @@ class Home extends React.Component {
                     </section>
                     <section id="spotify">
                         <h3> <FontAwesomeIcon icon={faSpotify} /> Spotify Data</h3>
-                        <div className="container3">
+                        <div className="spotify-container1">
                             <div className="listeners">
                                 <h4>Listeners this past week</h4>
                                 {

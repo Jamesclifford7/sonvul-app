@@ -1,24 +1,41 @@
-#instagram .container1, #instagram .container2, #spotify .container3 {
+#report .report-container, #instagram .ig-container1, #instagram .ig-container2, #spotify .spotify-container1 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-#instagram .impressions-container, #instagram .reach-container, #instagram .cities-container, #instagram .demographics-container, #spotify .listeners, #spotify .streams {
+/* #report .report-container {
+    width: 100%;
+    margin: 0 auto;
+    border: solid;
+    background: #FEC3A6;
+} */
+
+#report .report-container .recommendation, #instagram .impressions-container, #instagram .reach-container, #instagram .cities-container, #instagram .demographics-container, #spotify .listeners, #spotify .streams {
     width: 50%;
     border: solid;
     /* background: #DB5461; */
     /* background: #FF958C; */
     background: #FEC3A6;
 }
+/* 
+#report p, #instagram p, #spotify p {
+    color: #FAFAFA;
+} */
+
+#instagram h3 {
+    padding: 30px;
+}
 
 #spotify h3 {
     padding: 50px;
 }
 
-#instagram h3 {
-    padding: 30px;
+#spotify {
+    padding-bottom: 50px;
 }
+
+
 
 
 
