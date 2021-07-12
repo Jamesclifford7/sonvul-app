@@ -1,7 +1,8 @@
 import React from 'react'; 
 import './Home.css'; 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInstagram, faSpotify, faFacebook, faYoutube } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram, faSpotify, faFacebook, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { Link } from 'react-scroll';
 // npm install --save @fortawesome/free-brands-svg-icons
 // npm install --save @fortawesome/free-regular-svg-icons
 
@@ -250,6 +251,14 @@ class Home extends React.Component {
             <main>
                 <h1>Sonvul</h1>
                 <h2>Welcome, {this.state.artistName}</h2>
+                    <nav>
+                        <ul>
+                            <li><Link to="report" smooth={true} duration={1000}>Your Report</Link></li>
+                            <li><Link to="instagram" smooth={true} duration={1000}>Instagram Data</Link></li>
+                            <li><Link to="spotify" smooth={true} duration={1000}>Spotify Data</Link></li>
+                            <li><Link to="resources" smooth={true} duration={1000}>Additional Resources</Link></li>
+                        </ul>
+                    </nav>
                     <section id="report">
                         <h3>Based on your data, we recommend...</h3>
                         <div className="report-container">
@@ -411,16 +420,16 @@ class Home extends React.Component {
                         <h3>Additional Resources</h3>
                         <h4>Learn how to advertise on...</h4>
                         <div className="resource">
-                            <a href="https://business.instagram.com/advertising" target="_blank"><FontAwesomeIcon icon={faInstagram} /><h5>Instagram</h5></a>
+                            <a href="https://business.instagram.com/advertising" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faInstagram} /><h5>Instagram</h5></a>
                         </div>
                         <div className="resource">
-                            <a href="https://www.facebook.com/business/ads" target="_blank"><FontAwesomeIcon icon={faFacebook}/><h5>Facebook</h5></a>
+                            <a href="https://www.facebook.com/business/ads" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faFacebook}/><h5>Facebook</h5></a>
                         </div>
                         <div className="resource">
-                            <a href="https://ads.spotify.com/en-US/music-marketing/" target="_blank"><FontAwesomeIcon icon={faSpotify} /><h5>Spotify</h5></a>
+                            <a href="https://ads.spotify.com/en-US/music-marketing/" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faSpotify} /><h5>Spotify</h5></a>
                         </div>
                         <div className="resource">
-                            <a href="https://www.youtube.com/ads/" target="_blank"><FontAwesomeIcon icon={faYoutube} /><h5>Youtube</h5></a>
+                            <a href="https://www.youtube.com/ads/" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faYoutube} /><h5>Youtube</h5></a>
                         </div>
                     </section>
             </main>
