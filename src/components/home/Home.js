@@ -1,10 +1,9 @@
 import React from 'react'; 
-// import csvToJson from 'convert-csv-to-json'; 
 import './Home.css'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInstagram, faSpotify } from '@fortawesome/free-brands-svg-icons'
+import { faInstagram, faSpotify, faFacebook, faYoutube } from '@fortawesome/free-brands-svg-icons'
 // npm install --save @fortawesome/free-brands-svg-icons
-//   npm install --save @fortawesome/free-regular-svg-icons
+// npm install --save @fortawesome/free-regular-svg-icons
 
 
 class Home extends React.Component {
@@ -23,6 +22,7 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0); 
         // fetching Instagram data
         // first have to use user access token to retrieve facebook business account ID
 
@@ -80,8 +80,8 @@ class Home extends React.Component {
                     const impressionsData = resJson.data[0].values[0].value; 
                     const reachData = resJson.data[1].values[0].value;
                     this.setState({
-                        igImpressionsWeekly: impressionsData, 
-                        igReachWeekly: reachData
+                        igImpressionsWeekly: impressionsData.toLocaleString(), 
+                        igReachWeekly: reachData.toLocaleString()
                     }); 
                 })
                 .catch((error) => {
@@ -121,8 +121,8 @@ class Home extends React.Component {
                     };     
                     // console.log(impressionsTotal, reachTotal) 
                     this.setState({
-                        igImpressionsMonthly: impressionsTotal, 
-                        igReachMonthly: reachTotal
+                        igImpressionsMonthly: impressionsTotal.toLocaleString(), 
+                        igReachMonthly: reachTotal.toLocaleString()
                     })  
                 })
                 .catch((error) => {
@@ -155,7 +155,8 @@ class Home extends React.Component {
                 .then((cities) => {
                     this.setState({
                         igTopCities: cities
-                    })
+                    }); 
+                    return cities
                 })
                 .catch((error) => {
                     console.log(error + 'error retrieving top ig user cities')
@@ -179,7 +180,6 @@ class Home extends React.Component {
                     const demographicArr = Object.entries(demographicInfo); 
                     const demographicSorted = demographicArr.sort((a, b) => a[1] - b[1]); 
                     const topDemographics = []; 
-                    console.log(demographicSorted)
                     for (let i = demographicSorted.length - 1; i > demographicSorted.length - 6; i--) {
                         if (demographicSorted[i][0].split('.')[0] === 'M') {
                             const dem = [demographicSorted[i][0].split('.')[0] + "ale", demographicSorted[i][0].split('.')[1], demographicSorted[i][1]]; 
@@ -220,7 +220,7 @@ class Home extends React.Component {
                         totalNewFollowers += followerData[i].value
                     }; 
                     this.setState({
-                        igNewFollowers: totalNewFollowers
+                        igNewFollowers: totalNewFollowers.toLocaleString()
                     }); 
                 })
                 .catch((error) => {
@@ -244,39 +244,8 @@ class Home extends React.Component {
         });
     }
 
-    handleAudienceSubmit = (event) => {
-        event.preventDefault(); 
-        console.log(this.state.songData);
-        const audienceData = this.state.audienceData; 
-        const songData = this.state.songData; 
-        // console.log(data)
-        let listenerCountWeekly = 0;
-        let streamCountWeekly = 0; 
-
-        for (let i = 0; i < 7; i++) {
-            listenerCountWeekly += parseInt(audienceData[i][1]);
-            streamCountWeekly += parseInt(audienceData[i][2]);
-        };
-
-        let listenerCountMonthly = 0; 
-        let streamCountMonthly = 0; 
-        for (let i = 0; i < audienceData.length; i++) {
-            listenerCountMonthly += parseInt(audienceData[i][1]); 
-            streamCountMonthly += parseInt(audienceData[i][2]); 
-        };
-
-        const totalFollowers = audienceData[0][3]; 
-        this.setState({
-            listenersWeekly: listenerCountWeekly, 
-            listenersMonthly: listenerCountMonthly, 
-            streamsWeekly: streamCountWeekly, 
-            streamsMonthly: streamCountMonthly, 
-            followers: totalFollowers, 
-        }); 
-    }
-
     render() {
-        console.log(this.state.igImpressionsMonthly)
+        console.log(this.state.igTopCities)
         return (
             <main>
                 <h1>Sonvul</h1>
@@ -314,6 +283,22 @@ class Home extends React.Component {
                                 }
                             </div>
                         </div>
+                        <h3>And performing at these venues</h3>
+                        <div className="venue-container">
+                            <iframe
+                                title="venues"
+                                src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY}&q=top+five+concert+venues+in+${this.state.igTopCities[0]}`} allowFullScreen>
+                            </iframe>  
+                            <iframe
+                                title="venues"
+                                src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY}&q=top+five+concert+venues+in+${this.state.igTopCities[1]}`} allowFullScreen>
+                            </iframe>  
+                            <iframe
+                                title="venues"
+                                src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY}&q=top+five+concert+venues+in+${this.state.igTopCities[2]}`} allowFullScreen>
+                            </iframe>  
+                        </div>
+
                     </section>
                     <section id="instagram">
                         {/* <h2>Welcome, {this.state.artistName}</h2> */}
@@ -421,6 +406,22 @@ class Home extends React.Component {
                             })
                             : null
                         }
+                    </section>
+                    <section id="resources">
+                        <h3>Additional Resources</h3>
+                        <h4>Learn how to advertise on...</h4>
+                        <div className="resource">
+                            <a href="https://business.instagram.com/advertising" target="_blank"><FontAwesomeIcon icon={faInstagram} /><h5>Instagram</h5></a>
+                        </div>
+                        <div className="resource">
+                            <a href="https://www.facebook.com/business/ads" target="_blank"><FontAwesomeIcon icon={faFacebook}/><h5>Facebook</h5></a>
+                        </div>
+                        <div className="resource">
+                            <a href="https://ads.spotify.com/en-US/music-marketing/" target="_blank"><FontAwesomeIcon icon={faSpotify} /><h5>Spotify</h5></a>
+                        </div>
+                        <div className="resource">
+                            <a href="https://www.youtube.com/ads/" target="_blank"><FontAwesomeIcon icon={faYoutube} /><h5>Youtube</h5></a>
+                        </div>
                     </section>
             </main>
         )

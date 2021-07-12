@@ -37,44 +37,15 @@ class App extends React.Component {
   }
 
   audienceOnChange = (data) => {
+    // for (let i = 1; i <= 30; i++) {
+    //   this.state.audienceData.push(data[i].toLocaleString())
+    // }
       this.state.audienceData.push(data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14], data[15], data[16], data[17], data[18], data[19], data[20], data[21], data[22], data[23], data[24], data[25], data[26], data[27], data[28], data[29], data[30]); 
   }
 
   songOnChange = (data) => {
     this.state.songData.push(data[1], data[2], data[3], data[4], data[5]); 
   }
-
-  // handleAudienceSubmit = (event) => {
-  //     // event.preventDefault(); 
-  //     console.log(this.state.songData);
-  //     const audienceData = this.state.audienceData; 
-  //     const songData = this.state.songData; 
-  //     // console.log(data)
-  //     let listenerCountWeekly = 0;
-  //     let streamCountWeekly = 0; 
-
-  //     for (let i = 0; i < 7; i++) {
-  //         listenerCountWeekly += parseInt(audienceData[i][1]);
-  //         streamCountWeekly += parseInt(audienceData[i][2]);
-  //     };
-
-  //     let listenerCountMonthly = 0; 
-  //     let streamCountMonthly = 0; 
-  //     for (let i = 0; i < audienceData.length; i++) {
-  //         listenerCountMonthly += parseInt(audienceData[i][1]); 
-  //         streamCountMonthly += parseInt(audienceData[i][2]); 
-  //     };
-
-  //     const totalFollowers = audienceData[0][3]; 
-  //     this.setState({
-  //         listenersWeekly: listenerCountWeekly, 
-  //         listenersMonthly: listenerCountMonthly, 
-  //         streamsWeekly: streamCountWeekly, 
-  //         streamsMonthly: streamCountMonthly, 
-  //         followers: totalFollowers, 
-  //     }); 
-  //     this.props.history.push('/home')
-  // }
 
   responseFacebook = (response) => {
     if (response.id) {
@@ -101,11 +72,11 @@ class App extends React.Component {
 
       const totalFollowers = audienceData[0][3]; 
       this.setState({
-          listenersWeekly: listenerCountWeekly, 
-          listenersMonthly: listenerCountMonthly, 
-          streamsWeekly: streamCountWeekly, 
-          streamsMonthly: streamCountMonthly, 
-          followers: totalFollowers, 
+          listenersWeekly: listenerCountWeekly.toLocaleString(), 
+          listenersMonthly: listenerCountMonthly.toLocaleString(), 
+          streamsWeekly: streamCountWeekly.toLocaleString(), 
+          streamsMonthly: streamCountMonthly.toLocaleString(), 
+          followers: totalFollowers.toLocaleString(), 
       }); 
       this.props.history.push('/home')
     }

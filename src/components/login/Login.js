@@ -4,6 +4,7 @@ import CSVReader from 'react-csv-reader'; // npm package: https://www.npmjs.com/
 import './Login.css';
 import spotify1 from '../../images/Spotify_audience.png'; 
 import spotify2 from '../../images/Spotify_music.png'; 
+import concert1 from '../../images/concert1.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt } from '@fortawesome/free-solid-svg-icons';
 

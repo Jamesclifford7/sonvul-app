@@ -1,38 +1,59 @@
-#report .report-container, #instagram .ig-container1, #instagram .ig-container2, #spotify .spotify-container1 {
+#report .report-container, #report .venue-container, #instagram .ig-container1, #instagram .ig-container2, #spotify .spotify-container1 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-/* #report .report-container {
+#report .venue-container iframe {
     width: 100%;
     margin: 0 auto;
     border: solid;
-    background: #FEC3A6;
-} */
+    height: 400px;
+}
 
 #report .report-container .recommendation, #instagram .impressions-container, #instagram .reach-container, #instagram .cities-container, #instagram .demographics-container, #spotify .listeners, #spotify .streams {
     width: 50%;
     border: solid;
-    /* background: #DB5461; */
-    /* background: #FF958C; */
     background: #FEC3A6;
 }
-/* 
-#report p, #instagram p, #spotify p {
-    color: #FAFAFA;
-} */
 
-#instagram h3 {
+#report h3 {
     padding: 30px;
 }
 
-#spotify h3 {
-    padding: 50px;
+#instagram h3, #spotify h3, #resources h3 {
+    padding: 45px;
 }
 
 #spotify {
+    padding-bottom: 30px;
+    border-bottom: solid;
+}
+
+#resources {
     padding-bottom: 50px;
+}
+
+#resources .resource a:link {
+    color: black;
+    text-decoration: none;
+}
+
+#resources .resource a:visited {
+    color: black;
+}
+
+#resources .resource a:hover {
+    text-decoration: underline;
+}
+
+#resources .resource svg {
+    height: 45px;
+    width: auto;
+}
+
+#resources .resource h5 {
+    font-size: 15px;
 }
 
 
