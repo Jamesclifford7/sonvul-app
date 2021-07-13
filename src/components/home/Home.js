@@ -19,6 +19,7 @@ class Home extends React.Component {
             igTopCities: [],
             igDemographics: [],
             igNewFollowers: null,
+            youTubeStats: {}
         }
     }
 
@@ -40,7 +41,6 @@ class Home extends React.Component {
             return res.json()
         })
         .then((resJson) => {
-            console.log(resJson)
             const fbAccountId = resJson.data[0].id; 
             const token = resJson.data[0].access_token; 
             const name = resJson.data[0].name;
@@ -231,6 +231,49 @@ class Home extends React.Component {
             .catch((error) => {
                 console.log(error + 'error retrieving instagram business account id')
             })
+
+            // use artist name to get Youtube channel ID
+            fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${name}&type=channel&key=${process.env.REACT_APP_API_KEY}`, {
+                method: 'GET', 
+                headers: {
+                    'content-type':'application/json'
+                }
+            })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error()
+                }
+                return res.json()
+            })
+            .then((resJson) => {
+                // console.log(resJson.items[0].id.channelId)
+                const channelId = resJson.items[0].id.channelId
+                // now use channelId to retrieve channel metrics/stats
+                fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${process.env.REACT_APP_API_KEY}`, {
+                    method: 'GET', 
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                })
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error()
+                    }
+                    return res.json()
+                })
+                .then((resJson) => {
+                    const stats = resJson.items[0].statistics; 
+                    this.setState({
+                        youTubeStats: stats
+                    }); 
+                })
+                .catch((error) => {
+                    console.log(error + 'Error retrieving youtube channel stats')
+                })
+            })
+            .catch((error) => {
+                console.log(error + 'Error retrieving Youtube channel ID')
+            })
         })
         .catch((error) => {
             console.log(error + "error fetching business account id")
@@ -246,7 +289,6 @@ class Home extends React.Component {
     }
 
     render() {
-        console.log(this.state.igTopCities)
         return (
             <main>
                 <h1>Sonvul</h1>
@@ -256,6 +298,7 @@ class Home extends React.Component {
                             <li><Link to="report" smooth={true} duration={1000}>Your Report</Link></li>
                             <li><Link to="instagram" smooth={true} duration={1000}>Instagram Data</Link></li>
                             <li><Link to="spotify" smooth={true} duration={1000}>Spotify Data</Link></li>
+                            <li><Link to="youtube" smooth={true} duration={1000}>YouTube Data</Link></li>
                             <li><Link to="resources" smooth={true} duration={1000}>Additional Resources</Link></li>
                         </ul>
                     </nav>
@@ -307,7 +350,6 @@ class Home extends React.Component {
                                 src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY}&q=top+five+concert+venues+in+${this.state.igTopCities[2]}`} allowFullScreen>
                             </iframe>  
                         </div>
-
                     </section>
                     <section id="instagram">
                         {/* <h2>Welcome, {this.state.artistName}</h2> */}
@@ -404,17 +446,34 @@ class Home extends React.Component {
                         <h4>Total Followers</h4>
                         {
                             this.props.followers !== null
-                            ? <p>{this.props.followers}</p>
+                            ? <p>{parseInt(this.props.followers).toLocaleString()}</p>
                             : null
                         }
                         <h4>Top Songs this Month</h4>
                         {
                             this.props.songData.length !== 0
                             ? this.props.songData.map((song, idx) => {
-                                return <p key={idx}>"{song[0]}" Listeners: {song[1]} Streams: {song[2]}</p>
+                                return <p key={idx}>"{song[0]}" Listeners: {parseInt(song[1]).toLocaleString()} Streams: {parseInt(song[2]).toLocaleString()}</p>
                             })
                             : null
                         }
+                    </section>
+                    <section id="youtube">
+                        <h3> <FontAwesomeIcon icon={faYoutube} /> YouTube Data</h3>
+                        <div className="youtube-container">
+                            <div className="youtube-stat">
+                                <h4>Total Subscribers</h4>
+                                <p>{parseInt(this.state.youTubeStats.subscriberCount).toLocaleString()}</p>
+                            </div>
+                            <div className="youtube-stat">
+                                <h4>Total Videos</h4>
+                                <p>{parseInt(this.state.youTubeStats.videoCount).toLocaleString()}</p>
+                            </div>
+                            <div className="youtube-stat">
+                                <h4>Total Video Views</h4>
+                                <p>{parseInt(this.state.youTubeStats.viewCount).toLocaleString()}</p>
+                            </div>
+                        </div>
                     </section>
                     <section id="resources">
                         <h3>Additional Resources</h3>

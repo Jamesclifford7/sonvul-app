@@ -14,7 +14,7 @@ main nav ul li {
     font-style: italic;
 }
 
-#report .report-container, #report .venue-container, #instagram .ig-container1, #instagram .ig-container2, #spotify .spotify-container1 {
+#report .report-container, #report .venue-container, #instagram .ig-container1, #instagram .ig-container2, #spotify .spotify-container1, #youtube .youtube-container {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -37,13 +37,24 @@ main nav ul li {
     padding: 30px;
 }
 
-#instagram h3, #spotify h3, #resources h3 {
+#instagram h3, #spotify h3, #resources h3, #youtube h3 {
     padding: 45px;
 }
 
 #spotify {
     padding-bottom: 30px;
     border-bottom: solid;
+}
+
+/* #youtube .youtube-container {
+    background: #FEC3A6;
+    border: solid; 
+} */
+
+#youtube .youtube-container .youtube-stat {
+    border: solid;
+    background: #FEC3A6;
+    width: 100%;
 }
 
 #resources {
