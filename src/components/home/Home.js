@@ -19,7 +19,11 @@ class Home extends React.Component {
             igTopCities: [],
             igDemographics: [],
             igNewFollowers: null,
-            youTubeStats: {}
+            youTubeStats: {}, 
+            venuesCity1: [], 
+            venuesCity2: [], 
+            venuesCity3: [], 
+            blogs: []
         }
     }
 
@@ -156,8 +160,77 @@ class Home extends React.Component {
                 .then((cities) => {
                     this.setState({
                         igTopCities: cities
+                    });                     
+
+                    // get venues based on top user cities?
+                    // retrieving venues from yelp API
+                    fetch(`http://localhost:8000/api/yelp-venues/${cities[0][0]}`, {
+                        method: 'GET', 
+                        headers: {
+                            'content-type': 'application/json'
+                        }
+                    })
+                    .then((res) => {
+                        if (!res.ok) {
+                            throw new Error()
+                        }
+                        return res.json()
+                    })
+                    .then((resJson) => {
+                        this.setState({
+                            venuesCity1: resJson.businesses
+                        })
+                    })
+                    .then(() => {
+                        // retrieving venues for city #2
+                        fetch(`http://localhost:8000/api/yelp-venues/${cities[1][0]}`, {
+                            method: 'GET', 
+                            headers: {
+                                'content-type': 'application/json'
+                            }
+                        })
+                        .then((res) => {
+                            if (!res.ok) {
+                                throw new Error()
+                            }
+                            return res.json()
+                        })
+                        .then((resJson) => {
+                            this.setState({
+                                venuesCity2: resJson.businesses
+                            })
+                        })
+                        .then(() => {
+                            // retrieving venues for city #3
+                            fetch(`http://localhost:8000/api/yelp-venues/${cities[2][0]}`, {
+                                method: 'GET', 
+                                headers: {
+                                    'content-type': 'application/json'
+                                }
+                            })
+                            .then((res) => {
+                                if (!res.ok) {
+                                    throw new Error()
+                                }
+                                return res.json()
+                            })
+                            .then((resJson) => {
+                                this.setState({
+                                    venuesCity3: resJson.businesses
+                                })
+                            })
+                            .catch((error) => {
+                                console.log(error + 'error retrieving third city venues from Yelp API')
+                            })
+                        })
+                        .catch((error) => {
+                            console.log(error + 'error retrieving second city venues from Yelp API')
+                        })
+                    })
+                    .catch((error) => {
+                        console.log(error + 'error retrieving first city venues from Yelp API')
                     }); 
-                    return cities
+
                 })
                 .catch((error) => {
                     console.log(error + 'error retrieving top ig user cities')
@@ -233,7 +306,7 @@ class Home extends React.Component {
             })
 
             // use artist name to get Youtube channel ID
-            fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${name}&type=channel&key=${process.env.REACT_APP_API_KEY}`, {
+            fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${name}&type=channel&key=${process.env.REACT_APP_API_KEY_GOOGLE}`, {
                 method: 'GET', 
                 headers: {
                     'content-type':'application/json'
@@ -249,7 +322,7 @@ class Home extends React.Component {
                 // console.log(resJson.items[0].id.channelId)
                 const channelId = resJson.items[0].id.channelId
                 // now use channelId to retrieve channel metrics/stats
-                fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${process.env.REACT_APP_API_KEY}`, {
+                fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${process.env.REACT_APP_API_KEY_GOOGLE}`, {
                     method: 'GET', 
                     headers: {
                         'content-type': 'application/json'
@@ -275,9 +348,35 @@ class Home extends React.Component {
                 console.log(error + 'Error retrieving Youtube channel ID')
             })
         })
+        .then(() => {
+            // retrieving music blogs via serp API
+            fetch('http://localhost:8000/api/music-blogs', {
+                method: 'GET', 
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error()
+                }
+                return res.json()
+            })
+            .then((resJson) => {
+                this.setState({
+                    blogs: resJson
+                })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+        })
         .catch((error) => {
             console.log(error + "error fetching business account id")
-        }); 
+        });
+        
+
     }
 
     audienceOnChange = (event) => {
@@ -337,18 +436,68 @@ class Home extends React.Component {
                         </div>
                         <h3>And performing at these venues</h3>
                         <div className="venue-container">
-                            <iframe
-                                title="venues"
-                                src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY}&q=top+five+concert+venues+in+${this.state.igTopCities[0]}`} allowFullScreen>
-                            </iframe>  
-                            <iframe
-                                title="venues"
-                                src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY}&q=top+five+concert+venues+in+${this.state.igTopCities[1]}`} allowFullScreen>
-                            </iframe>  
-                            <iframe
-                                title="venues"
-                                src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY}&q=top+five+concert+venues+in+${this.state.igTopCities[2]}`} allowFullScreen>
-                            </iframe>  
+                            <div className="venues">
+                                {
+                                    this.state.venuesCity1.map((venue, idx) => {
+                                        return <div key={idx} className="venue">
+                                            <img src={venue.image_url} height="50" width="50" />
+                                            <div className="venue-info">
+                                                <h5>{venue.name}</h5>
+                                                <p>{venue.display_phone}</p>
+                                            </div>
+                                        </div>
+                                    })
+                                }
+                            </div>
+                            <div className="venues">
+                                {
+                                    this.state.venuesCity2.map((venue, idx) => {
+                                        return <div key={idx} className="venue">
+                                            <img src={venue.image_url} height="50" width="50" />
+                                            <div className="venue-info">
+                                                <h5>{venue.name}</h5>
+                                                <p>{venue.display_phone}</p>
+                                            </div>
+                                        </div>
+                                    })
+                                }
+                            </div>
+                            <div className="venues">
+                                {
+                                    this.state.venuesCity3.map((venue, idx) => {
+                                        return <div key={idx} className="venue">
+                                            <img src={venue.image_url} height="50" width="50" />
+                                            <div className="venue-info">
+                                                <h5>{venue.name}</h5>
+                                                <p>{venue.display_phone}</p>
+                                            </div>
+                                        </div>
+                                    })
+                                }
+                            </div>
+                                {/* <iframe
+                                    title="venues"
+                                    src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY_GOOGLE}&q=top+five+concert+venues+in+${this.state.igTopCities[0]}`} allowFullScreen>
+                                </iframe>  
+                                <iframe
+                                    title="venues"
+                                    src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY_GOOGLE}&q=top+five+concert+venues+in+${this.state.igTopCities[1]}`} allowFullScreen>
+                                </iframe>  
+                                <iframe
+                                    title="venues"
+                                    src={`https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_API_KEY_GOOGLE}&q=top+five+concert+venues+in+${this.state.igTopCities[2]}`} allowFullScreen>
+                                </iframe>   */}
+                        </div>
+                        <h3>Sending your music to these blogs</h3>
+                        <div className="blogs-container">
+                            {
+                                this.state.blogs.map((blog, idx) => {
+                                    return <div key={idx} className="blog">
+                                        <h4>{blog.title}</h4>
+                                        <p>{blog.link}</p>
+                                    </div>
+                                })
+                            }
                         </div>
                     </section>
                     <section id="instagram">

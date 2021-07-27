@@ -20,11 +20,18 @@ main nav ul li {
     justify-content: space-around;
 }
 
-#report .venue-container iframe {
+#report .venue-container .venues {
     width: 100%;
     margin: 0 auto;
     border: solid;
-    height: 400px;
+}
+
+#report .venue-container .venues .venue {
+    border: solid;
+}
+
+#report .venue-container .venues .venue-info {
+    display: inline-block;
 }
 
 #report .report-container .recommendation, #instagram .impressions-container, #instagram .reach-container, #instagram .cities-container, #instagram .demographics-container, #spotify .listeners, #spotify .streams {
