@@ -2,7 +2,9 @@ import React from 'react';
 import './Home.css'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faSpotify, faFacebook, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { famMusic } from '@fortawesome/free-regular-svg-icons'
 import { Link } from 'react-scroll';
+import { faMusic, faCity, faUsers } from '@fortawesome/free-solid-svg-icons';
 // npm install --save @fortawesome/free-brands-svg-icons
 // npm install --save @fortawesome/free-regular-svg-icons
 
@@ -12,6 +14,7 @@ class Home extends React.Component {
         super(); 
         this.state = {
             artistName: null, 
+            artistImage: "",
             igImpressionsWeekly: null, 
             igReachWeekly: null, 
             igImpressionsMonthly: null, 
@@ -23,7 +26,8 @@ class Home extends React.Component {
             venuesCity1: [], 
             venuesCity2: [], 
             venuesCity3: [], 
-            blogs: []
+            blogs: [], 
+            similarArtists: []
         }
     }
 
@@ -372,11 +376,57 @@ class Home extends React.Component {
             })
 
         })
+        .then(() => {
+            // getting artist image from spotify
+            fetch('http://localhost:8000/api/spotify', {
+                method: 'GET', 
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error()
+                }
+                return res.json()
+            })
+            .then((resJson) => {
+                console.log(resJson)
+                this.setState({
+                    artistImage: resJson.images[0].url
+                })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        })
+        .then(() => {
+            // getting similar artists to network with from Spotify
+            fetch('http://localhost:8000/api/spotify/related-artists', {
+                method: 'GET', 
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error()
+                }
+                return res.json()
+            })
+            .then((resJson) => {
+                // console.log(resJson)
+                this.setState({
+                    similarArtists: resJson.artists
+                })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        })
         .catch((error) => {
             console.log(error + "error fetching business account id")
         });
-        
-
     }
 
     audienceOnChange = (event) => {
@@ -391,6 +441,7 @@ class Home extends React.Component {
         return (
             <main>
                 <h1>Sonvul</h1>
+                <img src={this.state.artistImage} height="200" width="200" />
                 <h2>Welcome, {this.state.artistName}</h2>
                     <nav>
                         <ul>
@@ -405,36 +456,54 @@ class Home extends React.Component {
                         <h3>Based on your data, we recommend...</h3>
                         <div className="report-container">
                             <div className="recommendation">
-                                <h4>Promoting these songs</h4>
-                                <p>1. "{this.props.songData[0][0]}"</p>
-                                <p>2. "{this.props.songData[1][0]}"</p>
-                                <p>3. "{this.props.songData[2][0]}"</p>
-                                {/* {
-                                    this.props.songData.length !== 0
-                                    ? this.props.songData.map((song, idx) => {
-                                        return <p key={idx}>"{song[0]}" Listeners: {song[1]} Streams: {song[2]}</p>
-                                    })
-                                    : null
-                                } */}
+                                <div className="recommendation-info">
+                                    <FontAwesomeIcon icon={faMusic} />
+                                    <h4>Promoting these songs</h4>
+                                    <p>1. "{this.props.songData[0][0]}"</p>
+                                    <p>2. "{this.props.songData[1][0]}"</p>
+                                    <p>3. "{this.props.songData[2][0]}"</p>
+                                    <p style={{visibility: "hidden"}}>4.</p>
+                                    <p style={{visibility: "hidden"}}>5.</p>
+                                    {/* {
+                                        this.props.songData.length !== 0
+                                        ? this.props.songData.map((song, idx) => {
+                                            return <p key={idx}>"{song[0]}" Listeners: {song[1]} Streams: {song[2]}</p>
+                                        })
+                                        : null
+                                    } */}
+                                </div>
+                                <h4>Using Spotify Ads:</h4>
+                                <a href="https://ads.spotify.com/en-US/music-marketing/" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faSpotify} /></a>
                             </div>
                             <div className="recommendation">
-                                <h4>In these cities</h4>
-                                {
-                                    this.state.igTopCities.map((c, idx) => {
-                                        return <p key={idx}>{idx + 1}. {c[0]}</p>
-                                    })
-                                }
+                                <div className="recommendation-info">
+                                    <FontAwesomeIcon icon={faCity} />
+
+                                    <h4>In these cities</h4>
+                                    {
+                                        this.state.igTopCities.map((c, idx) => {
+                                            return <p key={idx}>{idx + 1}. {c[0]}</p>
+                                        })
+                                    }
+                                </div>
+                                <h4>Using Instagram Ads:</h4>
+                                <a href="https://business.instagram.com/advertising" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
                             </div>
                             <div className="recommendation">
-                                <h4>Among these demographics</h4>
-                                {
-                                    this.state.igDemographics.map((dem, idx) => {
-                                        return <p key={idx}>{idx + 1}. {dem[0]}s age {dem[1]}</p>
-                                    })
-                                }
+                                <div className="recommendation-info">
+                                    <FontAwesomeIcon icon={faUsers} />
+                                    <h4>Among these demographics</h4>
+                                    {
+                                        this.state.igDemographics.map((dem, idx) => {
+                                            return <p key={idx}>{idx + 1}. {dem[0]}s age {dem[1]}</p>
+                                        })
+                                    }
+                                </div>
+                                <h4>Using Instagram Ads:</h4>
+                                <a href="https://business.instagram.com/advertising" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
                             </div>
                         </div>
-                        <h3>And performing at these venues</h3>
+                        <h3>Performing at these venues</h3>
                         <div className="venue-container">
                             <div className="venues">
                                 {
@@ -443,7 +512,7 @@ class Home extends React.Component {
                                             <img src={venue.image_url} height="50" width="50" />
                                             <div className="venue-info">
                                                 <h5>{venue.name}</h5>
-                                                <p>{venue.display_phone}</p>
+                                                <p>{venue.display_phone ? venue.display_phone : "No number available"}</p>
                                             </div>
                                         </div>
                                     })
@@ -456,7 +525,7 @@ class Home extends React.Component {
                                             <img src={venue.image_url} height="50" width="50" />
                                             <div className="venue-info">
                                                 <h5>{venue.name}</h5>
-                                                <p>{venue.display_phone}</p>
+                                                <p>{venue.display_phone ? venue.display_phone : "No number available"}</p>
                                             </div>
                                         </div>
                                     })
@@ -469,7 +538,7 @@ class Home extends React.Component {
                                             <img src={venue.image_url} height="50" width="50" />
                                             <div className="venue-info">
                                                 <h5>{venue.name}</h5>
-                                                <p>{venue.display_phone}</p>
+                                                <p>{venue.display_phone ? venue.display_phone : "No number available"}</p>
                                             </div>
                                         </div>
                                     })
@@ -493,8 +562,20 @@ class Home extends React.Component {
                             {
                                 this.state.blogs.map((blog, idx) => {
                                     return <div key={idx} className="blog">
-                                        <h4>{blog.title}</h4>
-                                        <p>{blog.link}</p>
+                                        <h4> {idx + 1}. {blog.title}</h4>
+                                        {/* <p>{blog.link}</p> */}
+                                        <a href={blog.link}>{blog.link}</a>
+                                    </div>
+                                })
+                            }
+                        </div>
+                        <h3>And networking with these artists</h3>
+                        <div className="similar-artists-container">
+                            {
+                                this.state.similarArtists.map((artist, idx) => {
+                                    return <div key={idx} className="similar-artist">
+                                        <a href={artist.external_urls.spotify} target="_blank"><img src={artist.images[0].url} height="50" width="50" /></a>
+                                        <h4>{artist.name}</h4>
                                     </div>
                                 })
                             }
