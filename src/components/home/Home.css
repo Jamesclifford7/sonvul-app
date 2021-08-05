@@ -45,6 +45,9 @@ main img  {
 #report .report-container .recommendation {
     padding-top: 20px;
     padding-bottom: 20px;
+    border-radius: 25%; 
+    width: 30%; 
+    /* box-shadow: 3px 5px 5px #FF6542; */
 }
 
 #report .report-container .recommendation .recommendation-info svg {
@@ -60,36 +63,53 @@ main img  {
 
 /* venues */
 
-#report .venue-container {
-    /* background: #FEC3A6; */
+/* #report .venue-container {
+    /* background: #FEC3A6; 
     background: #90DDF0;
-    /* background: #FF6F59; */
-}
+    /* background: #FF6F59; 
+} */
 
 #report .venue-container .venues {
+    background: #FAFAFA;
     width: 100%;
     margin: 0 auto;
     border: solid;
     border-width: 1px;
+    /* height: 550px;
+    overflow: scroll; */
+}
+
+#report .venue-container .venues h4 {
+    padding: 10px;
+    /* border: solid; */
+}
+
+#report .venue-container .venues .venues-list {
+    height: 500px;
+    overflow: scroll;
 }
 
 #report .venue-container .venues .venue {
     border: solid;
     border-width: 1px;
     height: 100px;
+    background-color: #90DDF0;
+    text-align: left;
 }
 
 #report .venue-container .venues .venue img {
     border-radius: 50%;
     margin: 0 auto;
-    margin-right: 50px;
+    margin-left: 50px;
+    /* margin-right: 50px; */
     border: solid; 
     border-width: 0.5px;
 }
 
 #report .venue-container .venues .venue-info {
     display: inline-block;
-    text-align: left;
+    margin-left: 30px;
+    /* text-align: left; */
 }
 
 #report .report-container .recommendation h4, #report .report-container .recommendation p, #report .venue-container .venues .venue-info p, #report .venue-container .venues .venue-info h5 {

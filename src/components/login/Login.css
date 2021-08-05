@@ -51,4 +51,5 @@ main .login img {
     margin-top: 30px;
     border: solid;
     border-width: 0.5px;
+    border-radius: 0;  
 }

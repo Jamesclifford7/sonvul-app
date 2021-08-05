@@ -14,7 +14,8 @@ function Login(props) {
             {/* <h1>Sonvul <FontAwesomeIcon icon={faBolt}/></h1> */}
             <h1>Sonvul</h1>
             <div className="landing">
-                <p>Welcome to Sonvul! Track all of your social and streaming metrics in one place. Download the csv files from your Spotify for Artists account, connect your artist Instagram account, and then explore your data. Use Sonvul to tailor your marketing campaigns to specific cities and demographics, track your engagement, and discover which songs to promote to your followers.</p>
+                <p>Welcome to Sonvul, a DIY marketing tool for independent artists. Create a customized marketing plan based on your social and streaming data to reach more fans, promote the right content, and grow your audience organically. Upload your Spotify for Artists csv files and connect your Instagram account to begin!</p>
+                {/* <p>Welcome to Sonvul! Track all of your social and streaming metrics in one place. Download the csv files from your Spotify for Artists account, connect your artist Instagram account, and then explore your data. Use Sonvul to tailor your marketing campaigns to specific cities and demographics, track your engagement, and discover which songs to promote to your followers.</p> */}
             </div>
             <div className="login">
                 <h3>Upload your Spotify data then login with Facebook to continue.</h3>

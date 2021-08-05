@@ -23,6 +23,7 @@ class Home extends React.Component {
             igDemographics: [],
             igNewFollowers: null,
             youTubeStats: {}, 
+            venueCities: [],
             venuesCity1: [], 
             venuesCity2: [], 
             venuesCity3: [], 
@@ -164,7 +165,10 @@ class Home extends React.Component {
                 .then((cities) => {
                     this.setState({
                         igTopCities: cities
-                    });                     
+                    });
+                    this.setState({
+                        venueCities: [cities[0][0], cities[1][0], cities[2][0]]
+                    });                      
 
                     // get venues based on top user cities?
                     // retrieving venues from yelp API
@@ -438,6 +442,7 @@ class Home extends React.Component {
     }
 
     render() {
+        console.log(this.state.venueCities);
         return (
             <main>
                 <h1>Sonvul</h1>
@@ -506,9 +511,12 @@ class Home extends React.Component {
                         <h3>Performing at these venues</h3>
                         <div className="venue-container">
                             <div className="venues">
+                                <h4>{this.state.venueCities[0]}</h4>
+                                <div className="venues-list">
                                 {
                                     this.state.venuesCity1.map((venue, idx) => {
                                         return <div key={idx} className="venue">
+                                            
                                             <img src={venue.image_url} height="50" width="50" />
                                             <div className="venue-info">
                                                 <h5>{venue.name}</h5>
@@ -517,8 +525,11 @@ class Home extends React.Component {
                                         </div>
                                     })
                                 }
+                                </div>
                             </div>
                             <div className="venues">
+                                <h4>{this.state.venueCities[1]}</h4>
+                                <div className="venues-list">
                                 {
                                     this.state.venuesCity2.map((venue, idx) => {
                                         return <div key={idx} className="venue">
@@ -530,8 +541,11 @@ class Home extends React.Component {
                                         </div>
                                     })
                                 }
+                                </div>
                             </div>
                             <div className="venues">
+                                <h4>{this.state.venueCities[2]}</h4>
+                                <div className="venues-list">
                                 {
                                     this.state.venuesCity3.map((venue, idx) => {
                                         return <div key={idx} className="venue">
@@ -543,6 +557,7 @@ class Home extends React.Component {
                                         </div>
                                     })
                                 }
+                                </div>
                             </div>
                                 {/* <iframe
                                     title="venues"
