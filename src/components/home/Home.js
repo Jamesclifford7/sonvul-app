@@ -371,6 +371,7 @@ class Home extends React.Component {
                 return res.json()
             })
             .then((resJson) => {
+                console.log(resJson)
                 this.setState({
                     blogs: resJson
                 })
@@ -442,7 +443,7 @@ class Home extends React.Component {
     }
 
     render() {
-        console.log(this.state.venueCities);
+        console.log(this.state.blogs);
         return (
             <main>
                 <h1>Sonvul</h1>
@@ -577,9 +578,10 @@ class Home extends React.Component {
                             {
                                 this.state.blogs.map((blog, idx) => {
                                     return <div key={idx} className="blog">
-                                        <h4> {idx + 1}. {blog.title}</h4>
-                                        {/* <p>{blog.link}</p> */}
-                                        <a href={blog.link}>{blog.link}</a>
+                                        {/* <h4> {idx + 1}. {blog.title}</h4> */}
+                                        <h4>{blog.name}</h4>
+                                        <a href={blog.link} target="_blank"><img src={blog.image} /></a>
+                                        {/* <a href={blog.link}>{blog.link}</a> */}
                                     </div>
                                 })
                             }

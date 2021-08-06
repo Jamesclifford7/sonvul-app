@@ -127,7 +127,31 @@ main img  {
     padding-bottom: 30px;
     border-bottom: solid;
     border-width: 0.5px;
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-around; 
+    /* border: solid;  */
+    width: 100%; 
+    margin: 0 auto; 
+    flex-wrap: wrap; 
 }
+
+#report .blogs-container .blog {
+    margin-bottom: 30px;
+    width: 40%; 
+}
+
+#report .blogs-container .blog a img {
+    height: 80px; 
+    width: 80px;
+    border: solid; 
+    border-width: 0.5px;
+    border-color: black; 
+}
+
+/* #report .blogs-container .blog a img {
+    border-radius: 50px;
+} */
 
 /* similar artists */
 
