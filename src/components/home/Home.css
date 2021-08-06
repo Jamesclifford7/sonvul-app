@@ -38,13 +38,17 @@ main img  {
 
 /* ad recommendations */
 
+#report h3 {
+    padding: 50px;
+}
+
 #report .report-container .recommendation-info {
     padding-bottom: 10px;
 }
 
 #report .report-container .recommendation {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     border-radius: 25%; 
     width: 30%; 
     /* box-shadow: 3px 5px 5px #FF6542; */
@@ -63,18 +67,13 @@ main img  {
 
 /* venues */
 
-/* #report .venue-container {
-    /* background: #FEC3A6; 
-    background: #90DDF0;
-    /* background: #FF6F59; 
-} */
-
 #report .venue-container .venues {
     background: #FAFAFA;
     width: 100%;
     margin: 0 auto;
     border: solid;
     border-width: 1px;
+    /* border-color: pink;  */
     /* height: 550px;
     overflow: scroll; */
 }
@@ -92,6 +91,8 @@ main img  {
 #report .venue-container .venues .venue {
     border: solid;
     border-width: 1px;
+    border-left: none;
+    border-right: none;
     height: 100px;
     background-color: #90DDF0;
     text-align: left;
@@ -116,15 +117,16 @@ main img  {
     color: white;
 } 
 
-#report h3 {
+/* #report h3 {
     padding: 30px;
-}
+} */
 
 /* blogs container */
 
 #report .blogs-container {
     padding-bottom: 30px;
     border-bottom: solid;
+    border-width: 0.5px;
 }
 
 /* similar artists */
@@ -158,25 +160,60 @@ main img  {
 }
 
 #instagram h3, #spotify h3, #resources h3, #youtube h3 {
-    padding: 45px;
+    /* padding: 45px;  */
+    padding: 50px; 
 }
 
-/* instagram, spotify, and youtube */
+/* instagram */
+
+/* #instagram {
+    border-bottom: solid;
+    border-width: 0.5px; 
+    padding-bottom: 50px;
+} */
 
 #instagram .ig-container1 h4, #instagram .ig-container1 p, #instagram .ig-container2 h4, #instagram .ig-container2 p, #spotify .listeners h4, #spotify .listeners p, #spotify .streams h4, #spotify .streams p, #youtube h4, #youtube p {
     color: white;
 }
 
+#instagram .ig-container1 .impressions-container, #instagram .ig-container1 .reach-container {
+    width: 40%;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    padding-top: 30px;
+}
+
+#instagram .ig-container2 .cities-container, #instagram .ig-container2 .demographics-container {
+    border-top: none; 
+    width: 40%; 
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    padding-bottom: 30px
+}
+
+/* spotify */
+
 #spotify {
     padding-bottom: 30px;
     border-bottom: solid;
+    border-width: 0.5px;
 }
+
+#spotify .spotify-container1 .listeners, #spotify .spotify-container1 .streams {
+    width: 40%; 
+    border-radius: 50px;
+    padding: 30px 0 30px 0; 
+}
+
+/* youtube */
 
 #youtube .youtube-container .youtube-stat {
     border: solid;
     /* background: #FEC3A6; */
     background: #90DDF0;
-    width: 100%;
+    width: 30%;
+    border-radius: 50px;
+    padding: 30px 0 30px 0; 
 }
 
 /* resources */
