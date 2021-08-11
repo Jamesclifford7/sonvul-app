@@ -3,6 +3,7 @@ import { Route, withRouter } from 'react-router-dom';
 import './App.css'
 import Login from './components/login/Login'; 
 import Home from './components/home/Home'; 
+import SpotifyLogin from './components/spotify-login/SpotifyLogin';
 // import Home2 from './components/home/Home';
 // The onlogin attribute on the button to set up a JavaScript callback that checks 
 // the login status to see if the person logged in successfully:
@@ -32,7 +33,8 @@ class App extends React.Component {
       streamsWeekly: null, 
       streamsMonthly: null, 
       followers: null, 
-      topSongs: []
+      topSongs: [], 
+      spotifyCode: null
     }
   }
 
@@ -71,15 +73,50 @@ class App extends React.Component {
       };
 
       const totalFollowers = audienceData[0][3]; 
+
+      // console.log(window.location.href); 
+      const spotifyCode = window.location.href.split('='); 
+      console.log(spotifyCode); 
+
       this.setState({
           listenersWeekly: listenerCountWeekly.toLocaleString(), 
           listenersMonthly: listenerCountMonthly.toLocaleString(), 
           streamsWeekly: streamCountWeekly.toLocaleString(), 
           streamsMonthly: streamCountMonthly.toLocaleString(), 
           followers: totalFollowers.toLocaleString(), 
+          spotifyCode: spotifyCode[1]
       }); 
       this.props.history.push('/home')
     }
+  }
+
+  spotifyLogin = (event) => {
+    event.preventDefault(); 
+    fetch('http://localhost:8000/api/spotify-login', {
+        method: 'GET', 
+        headers: {
+            'content-type': 'text/plain'
+            // 'content-type': 'application/json'
+        }
+    })
+    .then((res) => {
+        console.log(res)
+        if (!res.ok) {
+            throw new Error()
+        }
+        return res.text(); 
+    })
+    .then((resText) => {
+      // console.log(this.props.history)
+      // this.props.history.push(`${resText}`); 
+      // above didn't work, so I am now opening logged in user in new tab
+      const win = window.open(`${resText}`, "_blank");
+      // win.focus();
+    })
+    .catch((error) => {
+        console.log(error + 'error with Spotify login'); 
+    }); 
+
   }
 
   // listenersWeekly: null, 
@@ -90,7 +127,8 @@ class App extends React.Component {
   // topSongs: []
 
   render() {
-    console.log(this.state.user)
+    // console.log(this.state.user)
+    // console.log(typeof window.location.href)
     return (
       <div className="App">
         <Route 
@@ -100,6 +138,13 @@ class App extends React.Component {
           audienceOnChange={this.audienceOnChange} 
           songOnChange={this.songOnChange} 
           handleAudienceSubmit={this.handleAudienceSubmit} />
+        )}/>
+        <Route 
+        path="/spotify-login"
+        render={(props) => (
+          <SpotifyLogin 
+            spotifyLogin={this.spotifyLogin}
+          />
         )}/>
         <Route 
         path="/home"
@@ -112,7 +157,8 @@ class App extends React.Component {
           followers={this.state.followers}
           topSongs={this.state.topSongs}
           songData={this.state.songData}
-          audienceData={this.state.audienceData} />
+          audienceData={this.state.audienceData}
+          spotifyCode={this.state.spotifyCode} />
         )}/>
         {/* <Route 
         path="/home"

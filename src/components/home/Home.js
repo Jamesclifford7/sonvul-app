@@ -382,8 +382,8 @@ class Home extends React.Component {
 
         })
         .then(() => {
-            // getting artist image from spotify
-            fetch('http://localhost:8000/api/spotify', {
+            // getting Spotify API access token
+            fetch(`http://localhost:8000/api/spotify-code/${this.props.spotifyCode}`, {
                 method: 'GET', 
                 headers: {
                     'content-type': 'application/json'
@@ -393,42 +393,58 @@ class Home extends React.Component {
                 if (!res.ok) {
                     throw new Error()
                 }
-                return res.json()
+                return res.text()
             })
-            .then((resJson) => {
-                console.log(resJson)
-                this.setState({
-                    artistImage: resJson.images[0].url
-                })
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        })
-        .then(() => {
-            // getting similar artists to network with from Spotify
-            fetch('http://localhost:8000/api/spotify/related-artists', {
-                method: 'GET', 
-                headers: {
-                    'content-type': 'application/json'
-                }
-            })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error()
-                }
-                return res.json()
-            })
-            .then((resJson) => {
+            .then((resToken) => {
                 // console.log(resJson)
-                this.setState({
-                    similarArtists: resJson.artists
+                fetch(`http://localhost:8000/api/spotify/${resToken}`, {
+                    method: 'GET', 
+                    headers: {
+                        'content-type': 'application/json'
+                    }
                 })
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error()
+                    }
+                    return res.json()
+                })
+                .then((resJson) => {
+                    // console.log(resJson)
+                    this.setState({
+                        artistImage: resJson.images[0].url
+                    }); 
+                    fetch(`http://localhost:8000/api/spotify/related-artists/${resToken}`, {
+                        method: 'GET', 
+                        headers: {
+                            'content-type': 'application/json'
+                        }
+                    })
+                    .then((res) => {
+                        if (!res.ok) {
+                            throw new Error()
+                        }
+                        return res.json()
+                    })
+                    .then((resJson) => {
+                        // console.log(resJson)
+                        this.setState({
+                            similarArtists: resJson.artists
+                        }); 
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    }); 
+                })
+                .catch((error) => {
+                    console.log(error)
+                }); 
             })
             .catch((error) => {
-                console.log(error)
+                console.log(error + 'error retrieving spotify token client side')
             })
         })
+
         .catch((error) => {
             console.log(error + "error fetching business account id")
         });
@@ -443,7 +459,7 @@ class Home extends React.Component {
     }
 
     render() {
-        console.log(this.state.blogs);
+        // console.log(this.state.similarArtists);
         return (
             <main>
                 <h1>Sonvul</h1>

@@ -32,6 +32,7 @@ function Login(props) {
                     fields="name,email,picture"
                     // onClick={componentClicked}
                     callback={props.responseFacebook} 
+                    
                 />
             </div>
             {/* <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div> */}
