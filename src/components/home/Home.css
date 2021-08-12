@@ -124,8 +124,9 @@ main img  {
 /* blogs container */
 
 #report .blogs-container {
-    padding-bottom: 30px;
+    padding-bottom: 50px;
     border-bottom: solid;
+    border-top: solid;
     border-width: 0.5px;
     display: flex; 
     flex-direction: row; 
@@ -134,11 +135,18 @@ main img  {
     width: 100%; 
     margin: 0 auto; 
     flex-wrap: wrap; 
+    background: #FF6542;
 }
 
 #report .blogs-container .blog {
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     width: 40%; 
+    padding-top: 20px;
+    /* background: #FF6542; */
+}
+
+#report .blogs-container .blog h4 {
+    color: white;
 }
 
 #report .blogs-container .blog a img {
@@ -161,6 +169,7 @@ main img  {
     flex-direction: row;
     margin: 0 auto; 
     border: solid;
+    border-width: 0.5px;
     width: 100%;
     overflow: scroll;
     padding: 20px 0 20px 0; 

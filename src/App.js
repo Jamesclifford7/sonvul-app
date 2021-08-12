@@ -76,7 +76,7 @@ class App extends React.Component {
 
       // console.log(window.location.href); 
       const spotifyCode = window.location.href.split('='); 
-      console.log(spotifyCode); 
+      // console.log(spotifyCode); 
 
       this.setState({
           listenersWeekly: listenerCountWeekly.toLocaleString(), 

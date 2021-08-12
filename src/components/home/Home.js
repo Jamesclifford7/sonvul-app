@@ -397,6 +397,7 @@ class Home extends React.Component {
             })
             .then((resToken) => {
                 // console.log(resJson)
+                // getting Spotify Artist from Spotify API
                 fetch(`http://localhost:8000/api/spotify/${resToken}`, {
                     method: 'GET', 
                     headers: {
@@ -414,31 +415,35 @@ class Home extends React.Component {
                     this.setState({
                         artistImage: resJson.images[0].url
                     }); 
-                    fetch(`http://localhost:8000/api/spotify/related-artists/${resToken}`, {
-                        method: 'GET', 
-                        headers: {
-                            'content-type': 'application/json'
-                        }
-                    })
-                    .then((res) => {
-                        if (!res.ok) {
-                            throw new Error()
-                        }
-                        return res.json()
-                    })
-                    .then((resJson) => {
-                        // console.log(resJson)
-                        this.setState({
-                            similarArtists: resJson.artists
-                        }); 
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                    }); 
                 })
                 .catch((error) => {
                     console.log(error)
                 }); 
+                
+                // getting related artists from Spotify
+                fetch(`http://localhost:8000/api/spotify/related-artists/${resToken}`, {
+                    method: 'GET', 
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                })
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error()
+                    }
+                    return res.json()
+                })
+                .then((resJson) => {
+                    // console.log(resJson)
+                    this.setState({
+                        similarArtists: resJson.artists
+                    }); 
+                })
+                .catch((error) => {
+                    console.log(error + 'error retrieving related artists from Spotify')
+                }); 
+            
+
             })
             .catch((error) => {
                 console.log(error + 'error retrieving spotify token client side')
@@ -594,10 +599,11 @@ class Home extends React.Component {
                             {
                                 this.state.blogs.map((blog, idx) => {
                                     return <div key={idx} className="blog">
-                                        {/* <h4> {idx + 1}. {blog.title}</h4> */}
-                                        <h4>{blog.name}</h4>
-                                        <a href={blog.link} target="_blank"><img src={blog.image} /></a>
-                                        {/* <a href={blog.link}>{blog.link}</a> */}
+                                        {/* <h4> {idx + 1}. {blog.title}</h4>  */}
+                                        <h4>{blog.title}</h4>
+                                        <a href={blog.link}>{blog.link}</a>
+                                        {/* <h4>{blog.name}</h4>
+                                        <a href={blog.link} target="_blank"><img src={blog.image} /></a> */}
                                     </div>
                                 })
                             }
