@@ -2,7 +2,6 @@ import React from 'react';
 import './Home.css'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faSpotify, faFacebook, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { famMusic } from '@fortawesome/free-regular-svg-icons'
 import { Link } from 'react-scroll';
 import { faMusic, faCity, faUsers } from '@fortawesome/free-solid-svg-icons';
 // npm install --save @fortawesome/free-brands-svg-icons

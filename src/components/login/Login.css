@@ -1,51 +1,8 @@
-main .landing {
-    background-image: url('../../images/concert1.jpeg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 600px;
-    /* position: absolute; */
+.login {
+    padding-bottom: 200px;;
 }
 
-main .landing p {
-    /* background-color: #FEC3A6; */
-    background-color: #FF6542;
-    color: white;
-    position: relative; 
-    transform: translateY(-50%);
-    top: 50%;
-    padding: 50px;
-    /* border-top: solid; 
-    border-bottom: solid;  */
-    border: solid;
-    border-width: 0.5px;
-    width: 80%;
-    margin: 0 auto;
-    line-height: 1.5;
-    font-size: large;
-}
-
-main .login {
-    /* height: 1000px; */
-    padding-bottom: 200px;
-    margin-top: 40px;
-}
-
-main .login h1 svg {
-    color: black;
-}
-
-main .login h3 {
-    width: 60%;
-    margin: 0 auto;
-}
-
-main .login span button {
-    border: solid;
-    border-radius: 25%;
-    margin-top: 20px;
-}
-
-main .login img {
+.login img {
     width: 800px; 
     height: auto; 
     margin-top: 30px;
@@ -53,3 +10,24 @@ main .login img {
     border-width: 0.5px;
     border-radius: 0;  
 }
+
+.login h2 {
+    margin-bottom: 50px;
+}
+
+.login h4 {
+    margin-top: 80px;
+}
+
+.login button {
+    border-radius: 25%;
+}
+
+/* .login button {
+    background-color: #1db954;
+    color: #ffff; 
+    border: none; 
+    padding: 20px;
+    border-radius: 25px;
+    margin-bottom: 30px;
+} */

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, withRouter } from 'react-router-dom'; 
 import './App.css'
-import Login from './components/login/Login'; 
+import Landing from './components/landing/Landing'; 
 import Home from './components/home/Home'; 
-import SpotifyLogin from './components/spotify-login/SpotifyLogin';
+import Login from './components/login/Login';
 // import Home2 from './components/home/Home';
 // The onlogin attribute on the button to set up a JavaScript callback that checks 
 // the login status to see if the person logged in successfully:
@@ -34,7 +34,8 @@ class App extends React.Component {
       streamsMonthly: null, 
       followers: null, 
       topSongs: [], 
-      spotifyCode: null
+      spotifyCode: null, 
+      spotifyUrl: null
     }
   }
 
@@ -51,9 +52,11 @@ class App extends React.Component {
 
   responseFacebook = (response) => {
     if (response.id) {
-      this.setState({
-        user: response
-      }); 
+
+      // this.setState({
+      //   user: response,
+      //   spotifyCode: spotifyCode[1]
+      // }); 
       const audienceData = this.state.audienceData; 
       const songData = this.state.songData; 
       // console.log(data)
@@ -77,8 +80,9 @@ class App extends React.Component {
       // console.log(window.location.href); 
       const spotifyCode = window.location.href.split('='); 
       // console.log(spotifyCode); 
-
+      
       this.setState({
+          user: response,
           listenersWeekly: listenerCountWeekly.toLocaleString(), 
           listenersMonthly: listenerCountMonthly.toLocaleString(), 
           streamsWeekly: streamCountWeekly.toLocaleString(), 
@@ -86,12 +90,46 @@ class App extends React.Component {
           followers: totalFollowers.toLocaleString(), 
           spotifyCode: spotifyCode[1]
       }); 
-      this.props.history.push('/home')
+      this.props.history.push('/home');
+      // this.props.history.push('/spotify-login')
     }
   }
 
   spotifyLogin = (event) => {
     event.preventDefault(); 
+
+    // const audienceData = this.state.audienceData; 
+    // const songData = this.state.songData; 
+    // let listenerCountWeekly = 0;
+    // let streamCountWeekly = 0; 
+
+    // for (let i = 0; i < 7; i++) {
+    //     listenerCountWeekly += parseInt(audienceData[i][1]);
+    //     streamCountWeekly += parseInt(audienceData[i][2]);
+    // };
+
+    // let listenerCountMonthly = 0; 
+    // let streamCountMonthly = 0; 
+    // for (let i = 0; i < audienceData.length; i++) {
+    //     listenerCountMonthly += parseInt(audienceData[i][1]); 
+    //     streamCountMonthly += parseInt(audienceData[i][2]); 
+    // };
+
+    // const totalFollowers = audienceData[0][3]; 
+
+    // // console.log(window.location.href); 
+    // // const spotifyCode = window.location.href.split('='); 
+    // // console.log(spotifyCode); 
+
+    // this.setState({
+    //     listenersWeekly: listenerCountWeekly.toLocaleString(), 
+    //     listenersMonthly: listenerCountMonthly.toLocaleString(), 
+    //     streamsWeekly: streamCountWeekly.toLocaleString(), 
+    //     streamsMonthly: streamCountMonthly.toLocaleString(), 
+    //     followers: totalFollowers.toLocaleString(), 
+    //     // spotifyCode: spotifyCode[1]
+    // }); 
+
     fetch('http://localhost:8000/api/spotify-login', {
         method: 'GET', 
         headers: {
@@ -110,12 +148,20 @@ class App extends React.Component {
       // console.log(this.props.history)
       // this.props.history.push(`${resText}`); 
       // above didn't work, so I am now opening logged in user in new tab
+      // console.log(resText)
+      // this.setState({
+      //   spotifyUrl: resText
+      // })
+
       const win = window.open(`${resText}`, "_blank");
+      // this.props.history.push(resText); 
       // win.focus();
     })
     .catch((error) => {
         console.log(error + 'error with Spotify login'); 
     }); 
+
+    // this.props.history.push('/login'); 
 
   }
 
@@ -127,23 +173,27 @@ class App extends React.Component {
   // topSongs: []
 
   render() {
-    // console.log(this.state.user)
+    console.log(this.state.songData)
     // console.log(typeof window.location.href)
     return (
       <div className="App">
         <Route 
         exact path="/" 
         render={(props) => (
-          <Login responseFacebook={this.responseFacebook} 
+          <Landing responseFacebook={this.responseFacebook} 
           audienceOnChange={this.audienceOnChange} 
           songOnChange={this.songOnChange} 
-          handleAudienceSubmit={this.handleAudienceSubmit} />
+          handleAudienceSubmit={this.handleAudienceSubmit}
+          spotifyLogin={this.spotifyLogin} />
         )}/>
         <Route 
-        path="/spotify-login"
+        path="/login"
         render={(props) => (
-          <SpotifyLogin 
+          <Login 
             spotifyLogin={this.spotifyLogin}
+            audienceOnChange={this.audienceOnChange} 
+            songOnChange={this.songOnChange} 
+            responseFacebook={this.responseFacebook}
           />
         )}/>
         <Route 
