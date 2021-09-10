@@ -72,22 +72,28 @@ main .login h1 svg {
     color: black;
 }
 
-/* main .login h3 {
-    width: 60%;
-    margin: 0 auto;
+/* media query for iphone */
+
+@media all and (max-width: 450px) {
+    /* main {
+        width: 100%; 
+    } */
+
+    main .landing p {
+        width: inherit;
+    }
+
+    main .instructions {
+        flex-direction: column;
+    }
+
+    main .instructions .instruction {
+        width: inherit;
+    }
 }
 
-main .login span button {
-    border: solid;
-    border-radius: 25%;
-    margin-top: 20px;
-}
+/* media query for tablet */
 
-main .login img {
-    width: 800px; 
-    height: auto; 
-    margin-top: 30px;
-    border: solid;
-    border-width: 0.5px;
-    border-radius: 0;  
-} */
+@media all and (min-width: 600px) and (max-width: 900px) {
+
+}

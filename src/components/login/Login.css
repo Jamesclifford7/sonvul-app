@@ -23,11 +23,28 @@
     border-radius: 25%;
 }
 
-/* .login button {
-    background-color: #1db954;
-    color: #ffff; 
-    border: none; 
-    padding: 20px;
-    border-radius: 25px;
-    margin-bottom: 30px;
-} */
+/* media query for iphone */
+
+@media all and (max-width: 450px) {
+    .login h2 {
+        margin: 0 auto;
+        width: 80%; 
+    }
+
+    .login .csv-reader-input input {
+        width: 50%; 
+    }
+
+    .login img {
+        width: 80%; 
+    }
+
+}
+
+/* media query for ipad (vertical) */
+
+@media all and (min-width: 760px) and (max-width: 1030px) {
+    .login img {
+        width: 80%; 
+    }
+}
