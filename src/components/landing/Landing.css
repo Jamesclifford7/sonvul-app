@@ -91,9 +91,3 @@ main .login h1 svg {
         width: inherit;
     }
 }
-
-/* media query for tablet */
-
-@media all and (min-width: 600px) and (max-width: 900px) {
-
-}
